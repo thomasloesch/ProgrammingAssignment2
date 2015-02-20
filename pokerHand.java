@@ -2,7 +2,6 @@
 // NAME: Thomas Loesch
 // DATE: 01/05/15
 
-import java.util.Vector;
 
 public class pokerHand extends Hand {
 
@@ -69,7 +68,31 @@ public class pokerHand extends Hand {
 	}
 	
 	public int isMiniStraight() {
-		// TODO - implement
-		return 0;
+		Hand tempHand = new Hand();
+		int conflict = -1;
+		int i;
+		
+		for(i = 0; i < this.getCardCount(); i++)
+			tempHand.addCard(hand.get(i));
+		
+		tempHand.sortByValue();
+		
+		for(i = 1; i < 5; i++){
+			if( ( tempHand.getCard(i).getValue() != tempHand.getCard(i - 1).getValue() + 1 ) ){
+				if ( i == 2 || i == 3 )
+					return -1;
+				else if( conflict == -1 )
+					if(i == 1)
+						conflict = 0;
+					else
+						conflict = 4;
+				else return -1;
+			}
+		}
+		
+		if(conflict > -1)
+			return hand.indexOf(tempHand.getCard(conflict));
+		else 
+			return -1;
 	}
 }
