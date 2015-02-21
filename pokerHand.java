@@ -35,9 +35,68 @@ public class pokerHand extends Hand {
 		return true;
 	}
 	
-	public double bestHand() {
-		// TODO - implement
-		return 0.0;
+	// returns the 
+	private int isFourOfKind(int[] valueAry) {		
+		for(int i = 0; i < 14; i++)
+			if(valueAry[i] == 4)
+				return i;
+		
+		return -1;
+	}
+	
+	private int isFullHouse() {
+
+		
+		return -1;
+	}
+	
+	// Returns the value of the highest value card of the given suit
+	private int findHighestOfSuit(int suit) {
+		int retval = -1;
+		Card temp;
+		
+		for(int i = 0; i < 5; i++) {
+			temp = hand.get(i);
+			if(temp.getSuit() == suit){
+				if(retval < temp.getValue())
+					retval = temp.getValue();
+			}
+		}
+		
+		return retval;
+	}
+	
+	public int bestHand() {
+		int temp;
+		int[] valueCount = new int[14];
+		int[] countAry = new int[4];
+		
+		for(int i = 0; i < 5; i++)
+			countAry[hand.get(i).getSuit()]++;
+		
+		// Check for four of a kind. Coded as: 8xx00
+		temp = isFourOfKind(valueCount);
+		if(temp > -1)
+			return 80000 + temp * 100;
+		
+		// TODO - Check for full house 7xxyy
+		temp = isFullHouse();
+		if(temp > -1){
+			
+		}
+		
+		// TODO - Check for flush 6xx00
+		
+		// TODO - Check for straight 5xx00
+		
+		// TODO - Check for three of a kind 4xx
+		
+		// TODO - Check for two pair 3xxyy
+		
+		// TODO - Check for one pair 2xx
+		
+		// TODO - Check for high card 1xx
+		return 0; // placeholder
 	}
 	
 	public int isMiniFlush() {
