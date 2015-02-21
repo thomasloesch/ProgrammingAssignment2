@@ -28,6 +28,7 @@ public class pokerHand extends Hand {
 	
 	private boolean isFlush() {
 		Card temp = getCard(0);
+		
 		for(int i = 1; i < 5; i++)
 			if(temp.getSuit() != getCard(i).getSuit())
 				return false;
@@ -35,8 +36,8 @@ public class pokerHand extends Hand {
 		return true;
 	}
 	
-	// returns the 
-	private int isFourOfKind(int[] valueAry) {		
+	// returns the value of a four of a kind, if there is none it returns -1
+	private int isFourOfKind(int[] valueAry) {
 		for(int i = 0; i < 14; i++)
 			if(valueAry[i] == 4)
 				return i;
@@ -44,8 +45,52 @@ public class pokerHand extends Hand {
 		return -1;
 	}
 	
-	private int isFullHouse() {
-
+	// Returns the values of a full house, if there is none it returns -1
+	// Coded as: xxyy
+	private int isFullHouse(int[] valueAry, int size) {
+		int retval;
+		
+		Boolean checkFor2s = false;
+		
+		// Check to see if there is 3 of a kind and add it to the return value
+		retval = isThreeOfKind(valueAry, size);
+		if(retval > -1){
+			retval *= 100;
+			checkFor2s = true;
+		}
+		
+		// If 3 of a kind was found, check for a pair, add it to the return value and then return it.
+		if(checkFor2s){
+			for(int i = 1; i < size; i++)
+				if(valueAry[i] == 2)
+					retval += i;
+		}
+		
+		return retval;
+	}
+	
+	// Returns the value of the highest card, if there is no straight it returns -1
+	private int isStraight() {
+		Hand tempHand = new Hand();
+		int i;
+		
+		for(i = 0; i < this.getCardCount(); i++)	// fill tempHand with the cards in hand
+			tempHand.addCard(hand.get(i));
+		
+		tempHand.sortByValue();
+		
+		// check for discrepancies
+		for(i = 1; i < 5; i++)
+			if( ( tempHand.getCard(i).getValue() != tempHand.getCard(i - 1).getValue() + 1 ) ) 
+				return -1;
+		
+		return tempHand.getCard(4).getValue(); // return the highest card value
+	}
+	
+	private int isThreeOfKind(int[] valueAry, int size) {
+		for(int i = 1; i < size; i++)
+			if(valueAry[i] == 3)
+				return i;
 		
 		return -1;
 	}
@@ -68,26 +113,34 @@ public class pokerHand extends Hand {
 	
 	public int bestHand() {
 		int temp;
-		int[] valueCount = new int[14];
-		int[] countAry = new int[4];
+		final int VALUE_SIZE = 14;
+		final int SUIT_SIZE = 4;
+		int[] valueCount = new int[VALUE_SIZE];
+		int[] suitCount = new int[SUIT_SIZE];
 		
-		for(int i = 0; i < 5; i++)
-			countAry[hand.get(i).getSuit()]++;
+		for(int i = 0; i < 5; i++) {
+			suitCount[hand.get(i).getSuit()]++; // populate the suitCount array
+			valueCount[hand.get(i).getValue()]++; // populate the valueCount array
+		}
 		
 		// Check for four of a kind. Coded as: 8xx00
 		temp = isFourOfKind(valueCount);
 		if(temp > -1)
 			return 80000 + temp * 100;
 		
-		// TODO - Check for full house 7xxyy
-		temp = isFullHouse();
-		if(temp > -1){
-			
-		}
+		// Check for full house. Coded as: 7xxyy
+		temp = isFullHouse(valueCount, VALUE_SIZE);
+		if(temp > -1)
+			return 70000 + temp;
 		
-		// TODO - Check for flush 6xx00
+		// Check for flush. Coded as: 6xx00
+		if(isFlush())
+			return 60000 + ( hand.get(0).getSuit() * 100 );
 		
 		// TODO - Check for straight 5xx00
+		temp = isStraight();
+		if(temp > -1)
+			return 50000 + temp * 100;
 		
 		// TODO - Check for three of a kind 4xx
 		
