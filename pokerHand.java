@@ -6,25 +6,6 @@
 public class pokerHand extends Hand {
 
 	public pokerHand() { super(); }
-
-	private String print() {
-		String retval = "";
-		for(int i = 0; i < getCardCount(); i++) retval += getCard(i).toString() + "\n";
-		return retval;
-	}
-	
-	private boolean hasOnePair() {
-		int n = getCardCount();
-		
-		if(n < 2) return false;
-		
-		for(int i = 0; i < n - 1; i++)
-			for(int j = n - 1; j > i; j--)
-				if(getCard(i).getValue() == getCard(j).getValue())
-					return true;
-		
-		return false;
-	}
 	
 	private boolean isFlush() {
 		Card temp = getCard(0);
@@ -37,6 +18,7 @@ public class pokerHand extends Hand {
 	}
 	
 	// returns the value of a four of a kind, if there is none it returns -1
+	// Coded as: xx
 	private int isFourOfKind(int[] valueAry) {
 		for(int i = 0; i < 14; i++)
 			if(valueAry[i] == 4)
@@ -70,6 +52,7 @@ public class pokerHand extends Hand {
 	}
 	
 	// Returns the value of the highest card, if there is no straight it returns -1
+	// Coded as: xx
 	private int isStraight() {
 		Hand tempHand = new Hand();
 		int i;
@@ -87,6 +70,8 @@ public class pokerHand extends Hand {
 		return tempHand.getCard(4).getValue(); // return the highest card value
 	}
 	
+	// Returns the value of the three of a kind, returns -1 if there is none
+	// Coded as: xx
 	private int isThreeOfKind(int[] valueAry, int size) {
 		for(int i = 1; i < size; i++)
 			if(valueAry[i] == 3)
@@ -95,33 +80,56 @@ public class pokerHand extends Hand {
 		return -1;
 	}
 	
-	// Returns the value of the highest value card of the given suit
-	private int findHighestOfSuit(int suit) {
-		int retval = -1;
-		Card temp;
+	// Returns the value of the highest value card, returns -1 if the hand is empty
+	// Coded as: xx
+	private int findHighCard(int[] valueAry, int size) {
+		for(int i = size; i > 0; i--)
+				if(valueAry[i] > 0)
+					return i;
 		
-		for(int i = 0; i < 5; i++) {
-			temp = hand.get(i);
-			if(temp.getSuit() == suit){
-				if(retval < temp.getValue())
-					retval = temp.getValue();
+		return -1;
+	}
+	
+	// Returns the values of the two pairs, returns -1 if there aren't 2 pairs
+	// Coded as: xxyy
+	private int isTwoPair(int[] valueAry, int size) {
+		int first = 0, second = 0;
+		
+		// Check for pairs, then add that value to the appropriate variable
+		for(int i = size; i > 0; i--) {
+			if(valueAry[i] == 2) {
+				if(first == 0)
+					first = i;
+				else
+					second = i;
 			}
 		}
 		
-		return retval;
+		// If 2 pairs were found return them coded
+		if(first > 0 && second > 0)
+			return first * 100 + second;
+
+		return -1;
 	}
 	
+	// Returns the value of the highest pair, returns -1 if there are no pairs
+	// Coded as: xx
+	private int isPair(int[] valueAry, int size) {
+		for(int i = size; i > 0; i--)
+			if(valueAry[i] == 2)
+				return i;
+		
+		return -1;
+	}
+	
+	// TODO - write comment
 	public int bestHand() {
 		int temp;
 		final int VALUE_SIZE = 14;
-		final int SUIT_SIZE = 4;
 		int[] valueCount = new int[VALUE_SIZE];
-		int[] suitCount = new int[SUIT_SIZE];
-		
-		for(int i = 0; i < 5; i++) {
-			suitCount[hand.get(i).getSuit()]++; // populate the suitCount array
+
+		for(int i = 0; i < 5; i++)
 			valueCount[hand.get(i).getValue()]++; // populate the valueCount array
-		}
 		
 		// Check for four of a kind. Coded as: 8xx00
 		temp = isFourOfKind(valueCount);
@@ -137,21 +145,31 @@ public class pokerHand extends Hand {
 		if(isFlush())
 			return 60000 + ( hand.get(0).getSuit() * 100 );
 		
-		// TODO - Check for straight 5xx00
+		// Check for straight. Coded as: 5xx00
 		temp = isStraight();
 		if(temp > -1)
 			return 50000 + temp * 100;
 		
-		// TODO - Check for three of a kind 4xx
+		// Check for three of a kind. Coded as: 4xx00
+		temp = isThreeOfKind(valueCount, VALUE_SIZE);
+		if(temp > -1)
+			return 40000 + temp * 100;
 		
-		// TODO - Check for two pair 3xxyy
+		// Check for two pair. Coded as: 3xxyy
+		temp = isTwoPair(valueCount, VALUE_SIZE);
+		if(temp > -1)
+			return 30000 + temp;
 		
-		// TODO - Check for one pair 2xx
+		// Check for one pair. Coded as: 2xx00
+		temp = isPair(valueCount, VALUE_SIZE);
+		if(temp > -1)
+			return 20000 + temp * 100;
 		
-		// TODO - Check for high card 1xx
-		return 0; // placeholder
+		// Get the highest card. Coded as: 1xx00
+		return 10000 + findHighCard(valueCount, VALUE_SIZE) * 100;
 	}
-	
+
+	// TODO - write comment
 	public int isMiniFlush() {
 		int suit, i;
 		
@@ -182,6 +200,7 @@ public class pokerHand extends Hand {
 		return -1; 						// otherwise, there wasn't a mini flush
 	}
 	
+	// TODO - write comment
 	public int isMiniStraight() {
 		Hand tempHand = new Hand(); // create a temporary hand so we can reorder it without changing the actual hand
 		int conflict = -1;			// tracks the index of a conflict
@@ -194,14 +213,14 @@ public class pokerHand extends Hand {
 		
 		for(i = 1; i < 5; i++){
 			if( ( tempHand.getCard(i).getValue() != tempHand.getCard(i - 1).getValue() + 1 ) ){	// check for a conflict
-				if ( i == 2 || i == 3 )									// if the conflict occurred in the middle, it isn't a mini flush
+				if ( i == 2 || i == 3 )					// if the conflict occurred in the middle, it isn't a mini flush
 					return -1;
-				else if( conflict == -1 )								// if there hasn't been a conflict yet, store the appropriate index in conflict
+				else if( conflict == -1 )				// if there hasn't been a conflict yet, store the appropriate index in conflict
 					if(i == 1)
 						conflict = 0;
 					else
 						conflict = 4;
-				else return -1;											// otherwise, there has been more than 1 conflict, so it isn't a mini flush
+				else return -1;							// otherwise, there has been more than 1 conflict, so it isn't a mini flush
 			}
 		}
 		

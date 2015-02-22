@@ -1,5 +1,14 @@
 
 public class tests {
+	
+	private static void fillHand(Hand hand, int v1, int s1, int v2, int s2, int v3, int s3, int v4, int s4, int v5,int s5){
+		hand.clear();
+		hand.addCard(new Card(v1, s1));
+		hand.addCard(new Card(v2, s2));
+		hand.addCard(new Card(v3, s3));
+		hand.addCard(new Card(v4, s4));
+		hand.addCard(new Card(v5, s5));	
+	}
 
 	public static void testIsMiniStraight() {
 		pokerHand testHand = new pokerHand();
@@ -119,8 +128,15 @@ public class tests {
 		System.out.println( retval );
 	}
 
+	public static void testBestHand(){
+		pokerHand testHand = new pokerHand();
+		
+		fillHand(testHand, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0);
+	}
+	
 	public static void runTests() {
 		//testIsMiniStraight();
-		testIsMiniFlush();
+		//testIsMiniFlush();
+		testBestHand();
 	}
 }
