@@ -36,19 +36,19 @@ public class pokerHand extends Hand {
 		
 		// Check to see if there is 3 of a kind and add it to the return value
 		retval = isThreeOfKind(valueAry, size);
-		if(retval > -1){
+		if(retval > -1) {
 			retval *= 100;
 			checkFor2s = true;
 		}
 		
 		// If 3 of a kind was found, check for a pair, add it to the return value and then return it.
-		if(checkFor2s){
+		if(checkFor2s) {
 			for(int i = 1; i < size; i++)
 				if(valueAry[i] == 2)
-					retval += i;
+					return retval + i;
 		}
 		
-		return retval;
+		return -1;
 	}
 	
 	// Returns the value of the highest card, if there is no straight it returns -1
@@ -83,7 +83,7 @@ public class pokerHand extends Hand {
 	// Returns the value of the highest value card, returns -1 if the hand is empty
 	// Coded as: xx
 	private int findHighCard(int[] valueAry, int size) {
-		for(int i = size; i > 0; i--)
+		for(int i = size - 1; i > 0; i--)
 				if(valueAry[i] > 0)
 					return i;
 		
@@ -96,7 +96,7 @@ public class pokerHand extends Hand {
 		int first = 0, second = 0;
 		
 		// Check for pairs, then add that value to the appropriate variable
-		for(int i = size; i > 0; i--) {
+		for(int i = size - 1; i > 0; i--) {
 			if(valueAry[i] == 2) {
 				if(first == 0)
 					first = i;
@@ -115,7 +115,7 @@ public class pokerHand extends Hand {
 	// Returns the value of the highest pair, returns -1 if there are no pairs
 	// Coded as: xx
 	private int isPair(int[] valueAry, int size) {
-		for(int i = size; i > 0; i--)
+		for(int i = size - 1; i > 0; i--)
 			if(valueAry[i] == 2)
 				return i;
 		
@@ -211,15 +211,16 @@ public class pokerHand extends Hand {
 		
 		tempHand.sortByValue();
 		
-		for(i = 1; i < 5; i++){
-			if( ( tempHand.getCard(i).getValue() != tempHand.getCard(i - 1).getValue() + 1 ) ){	// check for a conflict
+		for(i = 1; i < 5; i++) {
+			if( ( tempHand.getCard(i).getValue() != tempHand.getCard(i - 1).getValue() + 1 ) ) {	// check for a conflict
 				if ( i == 2 || i == 3 )					// if the conflict occurred in the middle, it isn't a mini flush
 					return -1;
-				else if( conflict == -1 )				// if there hasn't been a conflict yet, store the appropriate index in conflict
+				else if( conflict == -1 ) {				// if there hasn't been a conflict yet, store the appropriate index in conflict
 					if(i == 1)
 						conflict = 0;
 					else
 						conflict = 4;
+				}
 				else return -1;							// otherwise, there has been more than 1 conflict, so it isn't a mini flush
 			}
 		}
