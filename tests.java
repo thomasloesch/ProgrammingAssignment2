@@ -158,8 +158,8 @@ public class tests {
 	}
 	
 	public static void runTests() {
-		//testIsMiniStraight();
+		testIsMiniStraight();
 		//testIsMiniFlush();
-		testBestHand();
+		//testBestHand();
 	}
 }
