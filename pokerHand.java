@@ -203,8 +203,8 @@ public class pokerHand extends Hand {
 	// TODO - write comment
 	public int isMiniStraight() {
 		Hand tempHand = new Hand(); // create a temporary hand so we can reorder it without changing the actual hand
-		Card temp;
-		int conflict = 0;			// tracks the index of a conflict
+		int conflict;
+		int diff;			// tracks the index of a conflict
 		int i;
 		
 		for(i = 0; i < this.getCardCount(); i++)	// fill tempHand with the cards in hand
@@ -212,19 +212,21 @@ public class pokerHand extends Hand {
 		
 		tempHand.sortByValue();
 		
-		for(i = 4; i > 0; i--) {
-			if( ( tempHand.getCard(i).getValue() != tempHand.getCard(i + 1).getValue() - 1 ) ) {	// check for a conflict
-				conflict++;							// if there is a conflict, note it
-				if(i != 4){							// then send that card to the end of the hand (unless it's already the last card)
-					temp = tempHand.getCard(i + 1);
-					tempHand.removeCard(i + 1);
-					tempHand.addCard(temp);
-				}
+		for(int n = 0; i < 2; i++){
+			diff = 1;
+			conflict = 0;
+			for(i = n + 1; i < 5; i++){
+				if(tempHand.getCard(n).getValue() == tempHand.getCard(i).getValue() - diff)
+					diff++;
+				else if(conflict == -1)
+					conflict = i;
+				else
+					return -1;
 			}
 		}
 		
-		if(conflict == 0 || conflict > 1) 	
-			return 1;	// if conflict didn't change, we know it was a flush, and therefore hand is not a mini flush
+		/*if(conflict == 0 || conflict > 1) 	
+			return 1;*/	// if conflict didn't change, we know it was a flush, and therefore hand is not a mini flush
 		
 		// IDEA - Push cards that don't belong in the hand to the front or back to isolate them
 	}
