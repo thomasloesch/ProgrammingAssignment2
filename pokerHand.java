@@ -7,14 +7,24 @@ public class pokerHand extends Hand {
 
 	public pokerHand() { super(); }
 	
-	private boolean isFlush() {
+	private void fillTempHand(Hand aHand){
+		for(int i = 0; i < getCardCount(); i++)	// fill tempHand with the cards in hand
+			aHand.addCard(hand.get(i));
+	}
+	
+	private int isFlush() {
 		Card temp = getCard(0);
 		
 		for(int i = 1; i < 5; i++)
 			if(temp.getSuit() != getCard(i).getSuit())
-				return false;
+				return -1;
 		
-		return true;
+		Hand tempHand = new Hand();
+		
+		fillTempHand(tempHand);
+		tempHand.sortByValue();
+		
+		return tempHand.getCard(4).getValue();
 	}
 	
 	// returns the value of a four of a kind, if there is none it returns -1
@@ -57,8 +67,7 @@ public class pokerHand extends Hand {
 		Hand tempHand = new Hand();
 		int i;
 		
-		for(i = 0; i < this.getCardCount(); i++)	// fill tempHand with the cards in hand
-			tempHand.addCard(hand.get(i));
+		fillTempHand(tempHand);
 		
 		tempHand.sortByValue();
 		
@@ -144,8 +153,9 @@ public class pokerHand extends Hand {
 			return 70000 + temp;
 		
 		// Check for flush. Coded as: 6xx00
-		if(isFlush())
-			return 60000 + ( hand.get(0).getSuit() * 100 );
+		temp = isFlush();
+		if(temp > -1)
+			return 60000 + temp * 100;
 		
 		// Check for straight. Coded as: 5xx00
 		temp = isStraight();
@@ -211,8 +221,7 @@ public class pokerHand extends Hand {
 		int diff, cardValue, count;
 		int conflict = 0;
 		
-		for(int i = 0; i < this.getCardCount(); i++)	// fill tempHand with the cards in hand
-			tempHand.addCard(hand.get(i));
+		fillTempHand(tempHand);
 		
 		tempHand.sortByValue();
 		

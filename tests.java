@@ -180,20 +180,20 @@ public class tests {
 		pokerHand testHand = new pokerHand();
 		Deck aDeck = new Deck(false);
 		
-		testRand(testHand, aDeck, 70000);
-		testRand(testHand, aDeck, 70000);
-		testRand(testHand, aDeck, 70000);
-		testRand(testHand, aDeck, 70000);
-		testRand(testHand, aDeck, 80000);
-		testRand(testHand, aDeck, 80000);
-		testRand(testHand, aDeck, 80000);
-		testRand(testHand, aDeck, 80000);
+		testRand(testHand, aDeck, 60000);
+		testRand(testHand, aDeck, 60000);
+		testRand(testHand, aDeck, 60000);
+		testRand(testHand, aDeck, 60000);
+		testRand(testHand, aDeck, 60000);
+		testRand(testHand, aDeck, 60000);
+		testRand(testHand, aDeck, 60000);
+		testRand(testHand, aDeck, 60000);
 	}
 	
 	public static void runTests() {
-		testIsMiniStraight();
+		//testIsMiniStraight();
 		//testIsMiniFlush();
-		//testBestHand();
-		testIsMiniStraightRand();
+		testBestHand();
+		//testIsMiniStraightRand();
 	}
 }
