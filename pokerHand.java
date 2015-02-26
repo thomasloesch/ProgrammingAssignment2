@@ -122,7 +122,9 @@ public class pokerHand extends Hand {
 		return -1;
 	}
 	
-	// TODO - write comment
+	// Returns a code based on the current hand
+	// The ten thousandth place shows what kind of hand it is
+	// the other four places hold additional useful information based on the type of hand
 	public int bestHand() {
 		int temp;
 		final int VALUE_SIZE = 14;
@@ -169,7 +171,8 @@ public class pokerHand extends Hand {
 		return 10000 + findHighCard(valueCount, VALUE_SIZE) * 100;
 	}
 
-	// TODO - write comment
+	// Returns an integer signifying the location in hand where a card could be replaced to make a flush
+	// Returns -1 if there is already a flush or there is no one card that could make it a flush
 	public int isMiniFlush() {
 		int suit, i;
 		
@@ -200,34 +203,48 @@ public class pokerHand extends Hand {
 		return -1; 						// otherwise, there wasn't a mini flush
 	}
 	
-	// TODO - write comment
+	// Returns an integer signifying the location in hand where a card could be replaced to make a straight
+	// Returns -1 if there is already a straight or there is no one card that could make it a straight
 	public int isMiniStraight() {
-		Hand tempHand = new Hand(); // create a temporary hand so we can reorder it without changing the actual hand
-		int conflict;
-		int diff;			// tracks the index of a conflict
-		int i;
+		Hand tempHand = new Hand(); 	// create a temporary hand so we can reorder it without changing the actual hand
+		int[] values;					
+		int diff, cardValue, count;
+		int conflict = 0;
 		
-		for(i = 0; i < this.getCardCount(); i++)	// fill tempHand with the cards in hand
+		for(int i = 0; i < this.getCardCount(); i++)	// fill tempHand with the cards in hand
 			tempHand.addCard(hand.get(i));
 		
 		tempHand.sortByValue();
 		
-		for(int n = 0; i < 2; i++){
-			diff = 1;
-			conflict = 0;
-			for(i = n + 1; i < 5; i++){
-				if(tempHand.getCard(n).getValue() == tempHand.getCard(i).getValue() - diff)
-					diff++;
-				else if(conflict == -1)
-					conflict = i;
-				else
-					return -1;
-			}
-		}
+		// main loop, first looks at the last 4 cards, then all 5
+		for(int n = 1; n >= 0; n--) {						// BEGIN LOOP
+			values = new int[5];							// reset the array
+			values[n] = tempHand.getCard(n).getValue();		// seed the initial position
+			count = 1;
+			
+			// nested loop, looks at the rest of the hand
+			for(int i = n + 1; i < 5; i++) {				// BEGIN NESTED LOOP
+				cardValue = tempHand.getCard(i).getValue();
+				diff = cardValue - values[0];				// calculate the difference between the initial position and the current card
+				
+				if(diff < 5) {
+					if(values[diff] == 0) {
+						values[diff] = cardValue;			// as long as there is a space in the array, put it in the correct location
+						count++;							// and increment count
+					}
+					else conflict = cardValue;				// otherwise save the value for later
+				}
+				else conflict = cardValue;
+			}												// END NESTED LOOP
+			
+			if(count == 4)									// if there are 4 cards in the array
+				for(int i = 0; i < 5; i++)					// check for the card in the actual hand that is causing the problem
+					if(hand.get(i).getValue() == conflict)
+						return i;
+			else if(count == 5)								// if it is a straight, return -1
+				return -1;
+		}													// END LOOP
 		
-		/*if(conflict == 0 || conflict > 1) 	
-			return 1;*/	// if conflict didn't change, we know it was a flush, and therefore hand is not a mini flush
-		
-		// IDEA - Push cards that don't belong in the hand to the front or back to isolate them
+		return -1;											// must not have been a mini straight, return -1
 	}
 }
