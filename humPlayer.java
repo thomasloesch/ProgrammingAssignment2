@@ -6,7 +6,7 @@ public class humPlayer extends pokerPlayer {
 	}
 
 	@Override
-	public int discard(double handCode, Hand faceUpCards) {
+	public int discard(int handCode, Hand faceUpCards) {
 		int n = 0;
 		int responseAry[];
 		
