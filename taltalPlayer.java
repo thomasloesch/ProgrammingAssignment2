@@ -39,22 +39,37 @@ public class taltalPlayer extends pokerPlayer {
 		}
 		
 		if(handCode > 40000) {
-			discardNotValue(( handCode / 100 ) % 100, 2);
+			temp = ( handCode / 100 ) % 100;
+			discardNotValue(temp, 2);
 			return 2;
 		}
 		
 		if(handCode > 30000) {
-			discardNotValue(( handCode / 100 ) % 100, handCode % 100, 1);
+			temp = ( handCode / 100 ) % 100;
+			int temp2 = handCode % 100;
+			discardNotValue(temp, temp2, 1);
 			return 1;
 		}
 		
 		if(handCode > 20000) {
-			discardNotValue(( handCode / 100 ) % 100, 2);
+			discardLowest();
+			discardLowest();
 			return 2;
 		}
 		
-		discardNotValue(( handCode / 100 ) % 100, 2);
+		discardLowest();
+		discardLowest();
 		return 2;
+	}
+	
+	private void discardLowest(){
+		int temp = 0;
+		
+		for(int i = 1; i < hand.getCardCount(); i++) 
+			if(hand.getCard(temp).getValue() < hand.getCard(i).getValue())
+				temp = i;
+		
+		hand.removeCard(temp);
 	}
 
 	private void discardNotValue(int value, int count) {
