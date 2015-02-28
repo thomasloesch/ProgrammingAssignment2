@@ -1,0 +1,166 @@
+Hello Poker!
+AI AI AI AI ------
+9 of Clubs
+7 of Spades
+***** Hidden *******
+***** Hidden *******
+***** Hidden *******
+ONLY HUMAN -------
+2 of Diamonds
+Queen of Spades
+6 of Diamonds
+King of Diamonds
+8 of Clubs
+ AI discards 1
+You may discard up to two cards.
+How many cards would you like to discard:	2
+0:	2 of Diamonds
+1:	Queen of Spades
+2:	6 of Diamonds
+3:	King of Diamonds
+4:	8 of Clubs
+Which of these cards would you like to discard? 1
+Which of these cards would you like to discard? 3
+ Human discards 2
+AI AI AI AI 
+9 of Clubs
+7 of Spades
+6 of Hearts
+5 of Diamonds
+5 of Hearts
+ONLY HUMAN
+2 of Diamonds
+6 of Diamonds
+8 of Clubs
+4 of Spades
+2 of Hearts
+HALWins
+AI AI AI AI ------
+2 of Clubs
+Ace of Clubs
+***** Hidden *******
+***** Hidden *******
+***** Hidden *******
+ONLY HUMAN -------
+9 of Diamonds
+Queen of Hearts
+7 of Hearts
+King of Spades
+5 of Diamonds
+ AI discards 2
+You may discard up to two cards.
+How many cards would you like to discard:	? 1
+0:	9 of Diamonds
+1:	Queen of Hearts
+2:	7 of Hearts
+3:	King of Spades
+4:	5 of Diamonds
+Which of these cards would you like to discard? 4
+ Human discards 1
+AI AI AI AI 
+Ace of Clubs
+3 of Diamonds
+Ace of Spades
+3 of Hearts
+10 of Clubs
+ONLY HUMAN
+9 of Diamonds
+Queen of Hearts
+7 of Hearts
+King of Spades
+9 of Clubs
+HALWins
+AI AI AI AI ------
+6 of Clubs
+5 of Hearts
+***** Hidden *******
+***** Hidden *******
+***** Hidden *******
+ONLY HUMAN -------
+Queen of Clubs
+7 of Hearts
+4 of Hearts
+Ace of Diamonds
+9 of Clubs
+ AI discards 1
+You may discard up to two cards.
+How many cards would you like to discard:	? 0
+ Human discards 0
+AI AI AI AI 
+6 of Clubs
+9 of Hearts
+9 of Diamonds
+6 of Spades
+8 of Hearts
+ONLY HUMAN
+Queen of Clubs
+7 of Hearts
+4 of Hearts
+Ace of Diamonds
+9 of Clubs
+HALWins
+AI AI AI AI ------
+4 of Spades
+8 of Spades
+***** Hidden *******
+***** Hidden *******
+***** Hidden *******
+ONLY HUMAN -------
+2 of Clubs
+10 of Diamonds
+Ace of Spades
+8 of Hearts
+6 of Spades
+ AI discards 2
+You may discard up to two cards.
+How many cards would you like to discard:	? 2
+0:	2 of Clubs
+1:	10 of Diamonds
+2:	Ace of Spades
+3:	8 of Hearts
+4:	6 of Spades
+Which of these cards would you like to discard? 2
+Which of these cards would you like to discard? 1
+ Human discards 2
+AI AI AI AI 
+4 of Spades
+8 of Spades
+5 of Clubs
+King of Spades
+3 of Diamonds
+ONLY HUMAN
+2 of Clubs
+8 of Hearts
+6 of Spades
+10 of Spades
+10 of Clubs
+MEWins
+AI AI AI AI ------
+3 of Hearts
+9 of Spades
+***** Hidden *******
+***** Hidden *******
+***** Hidden *******
+ONLY HUMAN -------
+3 of Clubs
+5 of Spades
+King of Clubs
+Jack of Diamonds
+Queen of Diamonds
+ AI discards 2
+You may discard up to two cards.
+How many cards would you like to discard:	? 0
+ Human discards 0
+AI AI AI AI 
+3 of Hearts
+4 of Clubs
+4 of Hearts
+10 of Hearts
+2 of Diamonds
+ONLY HUMAN
+3 of Clubs
+5 of Spades
+King of Clubs
+Jack of Diamonds
+Queen of Diamonds
+HALWins

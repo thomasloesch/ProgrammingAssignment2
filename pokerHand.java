@@ -7,11 +7,14 @@ public class pokerHand extends Hand {
 
 	public pokerHand() { super(); }
 	
+	// Fills the passed Hand with values of hand
 	private void fillTempHand(Hand aHand){
 		for(int i = 0; i < getCardCount(); i++)	// fill tempHand with the cards in hand
 			aHand.addCard(hand.get(i));
 	}
 	
+	// Check to see if there is a flush, and return the high card
+	// Otherwise return -1
 	private int isFlush() {
 		Card temp = getCard(0);
 		
