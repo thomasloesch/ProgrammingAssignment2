@@ -52,24 +52,51 @@ public class taltalPlayer extends pokerPlayer {
 		}
 		
 		if(handCode > 20000) {
-			discardLowest();
-			discardLowest();
+			temp = ( handCode / 100 ) % 100;
+			hand.removeCard(findLowest(temp));
+			hand.removeCard(findLowest(temp));
 			return 2;
 		}
 		
-		discardLowest();
-		discardLowest();
+		boolean discarded = false;
+		if(faceUpCards.getCard(0).getValue() == faceUpCards.getCard(1).getValue())
+			discarded = discardValue(faceUpCards.getCard(0).getValue());
+		
+		if(discarded)
+			hand.removeCard(findLowest());
+		else {
+			hand.removeCard(findLowest());
+			hand.removeCard(findLowest());
+		}
+		
 		return 2;
 	}
 	
-	private void discardLowest(){
+	private int findLowest(int not){
+		int temp = -1;
+		
+		for(int i = 1; i < hand.getCardCount(); i++) 
+			if(temp < hand.getCard(i).getValue() && hand.getCard(i).getValue() != not)
+				temp = i;
+		
+		for(int i = 0; i < hand.getCardCount(); i++) {
+			if(hand.getCard(i).getValue() == temp) {
+				temp = i;
+				break;
+			}
+		}
+		
+		return temp;
+	}
+	
+	private int findLowest(){
 		int temp = 0;
 		
 		for(int i = 1; i < hand.getCardCount(); i++) 
 			if(hand.getCard(temp).getValue() < hand.getCard(i).getValue())
 				temp = i;
 		
-		hand.removeCard(temp);
+		return temp;
 	}
 
 	private void discardNotValue(int value, int count) {
@@ -92,13 +119,15 @@ public class taltalPlayer extends pokerPlayer {
 		}
 	}
 	
-	private void discardValue(int value, int count) {
+	private boolean discardValue(int value) {
+		
 		for(int i = 0; i < hand.getCardCount(); i++) {
 			if(hand.getCard(i).getValue() == value) {
 				hand.removeCard(i);
-				count--;
+				return true;
 			}
-			if(count == 0) break;
 		}
+		
+		return false;
 	}
 }
